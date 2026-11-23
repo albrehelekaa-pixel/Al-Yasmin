@@ -2,12 +2,17 @@
 <html lang="ar" dir="rtl" class="scroll-smooth">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#F7F4EF" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="mobile-web-app-capable" content="yes" />
   <title>الياسمين — مطعم دمشقي وحلبي أصيل | AL-YASMIN</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@600;700;800&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+</div>
   <script>
     tailwind.config = {
       theme: {
@@ -53,57 +58,68 @@
       font-family: 'Cormorant Garamond', serif;
       font-weight: 600;
     }
-    body {
-      background-color: var(--bg);
+    html, body {
+      background-color: #161412;
       color: var(--ink);
       overflow-x: hidden;
+      overscroll-behavior-y: none;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+    #mobile-app-shell {
+      width: 100%;
+      max-width: 430px;
+      min-height: 100svh;
+      margin: 0 auto;
+      background-color: var(--bg);
+      position: relative;
+      padding-bottom: calc(78px + env(safe-area-inset-bottom));
+      box-shadow: 0 0 60px rgba(0, 0, 0, 0.45);
+      overflow-x: clip;
+    }
+    .mobile-fixed-frame {
+      width: 100%;
+      max-width: 430px;
+      margin-left: auto;
+      margin-right: auto;
+      left: 0;
+      right: 0;
     }
     .hairline { border-color: var(--line); }
-    .hero-height { min-height: 100svh; }
+    .hero-height { min-height: 82svh; }
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-    @media (max-width: 767px) {
-      body { padding-bottom: 74px; }
-    }
+    .pb-safe { padding-bottom: calc(0.5rem + env(safe-area-inset-bottom)); }
+    button, a { -webkit-tap-highlight-color: transparent; }
   </style>
 </head>
 <body class="antialiased selection:bg-terracotta selection:text-alabaster">
+<div id="mobile-app-shell">
 
-  <!-- Header -->
-  <header id="site-header" class="fixed top-0 inset-x-0 z-40 transition-all duration-300 bg-alabaster/90 backdrop-blur-md border-b hairline">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-4">
-      <a href="#home" class="flex items-center gap-2.5 group">
+  <!-- Mobile Top App Bar -->
+  <header id="site-header" class="fixed top-0 mobile-fixed-frame z-40 transition-all duration-300 bg-alabaster/95 backdrop-blur-md border-b hairline">
+    <div class="px-4 h-16 flex items-center justify-between gap-2">
+      <a href="#home" class="flex items-center gap-2 group">
         <span class="w-2.5 h-2.5 rounded-full bg-terracotta inline-block"></span>
-        <span class="font-serif-display text-2xl sm:text-3xl font-bold tracking-wide text-espresso" data-i18n="brand">الياسمين</span>
+        <span class="font-serif-display text-2xl font-bold tracking-wide text-espresso" data-i18n="brand">الياسمين</span>
       </a>
 
-      <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-espresso/80">
-        <a href="#menu" class="hover:text-terracotta transition-colors" data-i18n="nav_menu">القائمة</a>
-        <a href="#reservations" class="hover:text-terracotta transition-colors" data-i18n="nav_reserve">الحجوزات</a>
-        <a href="#story" class="hover:text-terracotta transition-colors" data-i18n="nav_story">قصتنا</a>
-        <a href="#gallery" class="hover:text-terracotta transition-colors" data-i18n="nav_gallery">المعرض</a>
-        <a href="#visit" class="hover:text-terracotta transition-colors" data-i18n="nav_visit">زورونا</a>
-      </nav>
-
-      <div class="flex items-center gap-2 sm:gap-3">
-        <button id="lang-toggle" onclick="toggleLanguage()" class="px-3 py-1.5 text-xs font-semibold border hairline rounded-full hover:bg-espresso hover:text-alabaster transition-colors">
+      <div class="flex items-center gap-2">
+        <button id="lang-toggle" onclick="toggleLanguage()" class="px-3 py-1.5 text-xs font-semibold border hairline rounded-full active:scale-95 transition">
           EN
         </button>
-        <button onclick="openCartDrawer()" class="relative inline-flex items-center gap-2 px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium border hairline rounded-full hover:border-espresso transition-colors">
+        <button onclick="openCartDrawer()" class="relative inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium border hairline rounded-full active:scale-95 transition">
           <span data-i18n="nav_order">الطلب</span>
           <span id="header-cart-count" class="inline-flex items-center justify-center min-w-[20px] h-5 px-1.5 text-[11px] font-semibold rounded-full bg-terracotta text-alabaster">0</span>
         </button>
-        <button onclick="openReservationModal()" class="hidden sm:inline-flex px-5 py-2.5 text-xs sm:text-sm font-medium bg-espresso text-alabaster rounded-full hover:bg-terracotta transition-colors" data-i18n="btn_book">
-          احجز طاولة
-        </button>
-        <button onclick="toggleMobileMenu()" aria-label="Menu" class="md:hidden p-2 border hairline rounded-full">
+        <button onclick="toggleMobileMenu()" aria-label="Menu" class="p-2 border hairline rounded-full active:scale-95 transition">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M4 7h16M4 12h16M4 17h16"/></svg>
         </button>
       </div>
     </div>
 
-    <!-- Mobile Dropdown -->
-    <div id="mobile-menu" class="hidden md:hidden border-t hairline bg-alabaster px-6 py-5 space-y-4">
+    <!-- Mobile Dropdown Menu -->
+    <div id="mobile-menu" class="hidden border-t hairline bg-alabaster px-5 py-5 space-y-4 shadow-lg">
       <div class="flex flex-col space-y-3 text-base font-medium">
         <a href="#menu" onclick="toggleMobileMenu()" data-i18n="nav_menu">القائمة</a>
         <a href="#reservations" onclick="toggleMobileMenu()" data-i18n="nav_reserve">الحجوزات</a>
@@ -119,20 +135,20 @@
   </header>
 
   <!-- Hero Section -->
-  <section id="home" class="relative hero-height flex items-end pt-24 pb-16 sm:pb-24 overflow-hidden">
+  <section id="home" class="relative hero-height flex items-end pt-20 pb-10 overflow-hidden">
     <div class="absolute inset-0 z-0">
       <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1800&q=85" alt="مطعم الياسمين" class="w-full h-full object-cover" />
       <div class="absolute inset-0 bg-gradient-to-t from-espresso/90 via-espresso/50 to-espresso/30"></div>
     </div>
 
-    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full text-alabaster">
+    <div class="relative z-10 px-4 w-full text-alabaster">
       <div class="max-w-2xl space-y-5">
         <p class="inline-flex items-center gap-2 text-xs sm:text-sm uppercase tracking-widest text-stonewarm/90">
           <span class="w-2 h-2 rounded-full bg-terracotta"></span>
           <span data-i18n="hero_eyebrow">دمشق القديمة • المطبخ الشامي والحلبي الأصيل</span>
         </p>
-        <h1 class="hero-title-ar text-4xl sm:text-6xl lg:text-7xl leading-tight" data-i18n="hero_title">موقد الحطب الحي</h1>
-        <p class="text-base sm:text-lg text-stonewarm/90 leading-relaxed max-w-xl" data-i18n="hero_desc">
+        <h1 class="hero-title-ar text-4xl leading-tight" data-i18n="hero_title">موقد الحطب الحي</h1>
+        <p class="text-sm text-stonewarm/90 leading-relaxed" data-i18n="hero_desc">
           نكهات دمشق وحلب الأصيلة تُطهى على جمر الفحم وخشب الزيتون، مع مقبلات يومية طازجة، مشاوي فاخرة، وحلويات شامية تُقدم بضيافة دافئة.
         </p>
         <div class="flex flex-wrap gap-3 pt-2">
@@ -144,12 +160,12 @@
   </section>
 
   <!-- Menu Section -->
-  <section id="menu" class="py-16 sm:py-24 border-b hairline">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+  <section id="menu" class="py-10 border-b hairline">
+    <div class="px-4">
+      <div class="flex flex-col gap-4 mb-6">
         <div>
           <p class="text-xs uppercase tracking-widest text-terracotta font-semibold mb-2" data-i18n="menu_eyebrow">قائمة الطعام</p>
-          <h2 class="font-serif-display text-3xl sm:text-5xl font-bold text-espresso" data-i18n="menu_title">أطباق سورية مختارة</h2>
+          <h2 class="font-serif-display text-3xl font-bold text-espresso" data-i18n="menu_title">أطباق سورية مختارة</h2>
         </div>
         <div class="flex items-center gap-2 flex-wrap">
           <button onclick="toggleDietary('V')" id="filter-V" class="px-3.5 py-1.5 text-xs font-medium border hairline rounded-full transition-colors" data-i18n="filter_v">نباتي (V)</button>
@@ -161,16 +177,16 @@
       <div id="category-tabs" class="flex gap-2 overflow-x-auto no-scrollbar pb-4 mb-8 border-b hairline"></div>
 
       <!-- Menu Grid -->
-      <div id="menu-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"></div>
+      <div id="menu-grid" class="grid grid-cols-1 gap-3"></div>
     </div>
   </section>
 
   <!-- Story Section -->
-  <section id="story" class="py-16 sm:py-24 bg-stonewarm/50 border-b hairline">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-      <div class="lg:col-span-6 space-y-5">
+  <section id="story" class="py-10 bg-stonewarm/50 border-b hairline">
+    <div class="px-4 flex flex-col gap-7">
+      <div class="space-y-4">
         <p class="text-xs uppercase tracking-widest text-terracotta font-semibold" data-i18n="story_eyebrow">قصتنا</p>
-        <h2 class="font-serif-display text-3xl sm:text-5xl font-bold text-espresso leading-tight" data-i18n="story_title">إرث الضيافة الشامية في قلب المدينة</h2>
+        <h2 class="font-serif-display text-3xl font-bold text-espresso leading-tight" data-i18n="story_title">إرث الضيافة الشامية في قلب المدينة</h2>
         <p class="text-muted leading-relaxed" data-i18n="story_p1">
           وُلد مطعم الياسمين من شغفٍ عميق بالمطبخ السوري العريق، حيث تجتمع روائح البهارات من سوق البزورية في دمشق مع أسرار المشاوي والكبب الحلبية التي توارثتها الأجيال.
         </p>
@@ -193,24 +209,24 @@
         </div>
       </div>
 
-      <div class="lg:col-span-6 grid grid-cols-2 gap-4">
-        <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=900&q=80" alt="المطبخ الشامي" class="w-full h-64 sm:h-80 object-cover rounded-2xl border hairline" />
-        <img src="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=900&q=80" alt="بهارات سوق البزورية" class="w-full h-64 sm:h-80 object-cover rounded-2xl border hairline mt-6" />
+      <div class="grid grid-cols-2 gap-3">
+        <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=900&q=80" alt="المطبخ الشامي" class="w-full h-44 object-cover rounded-2xl border hairline" />
+        <img src="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=900&q=80" alt="بهارات سوق البزورية" class="w-full h-44 object-cover rounded-2xl border hairline mt-4" />
       </div>
     </div>
   </section>
 
   <!-- Inline Reservations Section -->
-  <section id="reservations" class="py-16 sm:py-24 border-b hairline">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+  <section id="reservations" class="py-10 border-b hairline">
+    <div class="px-4">
       <div class="text-center mb-10 space-y-2">
         <p class="text-xs uppercase tracking-widest text-terracotta font-semibold" data-i18n="res_eyebrow">حجز الطاولات</p>
-        <h2 class="font-serif-display text-3xl sm:text-5xl font-bold text-espresso" data-i18n="res_title">احجز أمسيتك في الياسمين</h2>
+        <h2 class="font-serif-display text-3xl font-bold text-espresso" data-i18n="res_title">احجز أمسيتك في الياسمين</h2>
       </div>
 
-      <div class="bg-stonewarm/40 border hairline rounded-3xl p-6 sm:p-10">
+      <div class="bg-stonewarm/40 border hairline rounded-3xl p-5">
         <form id="inline-res-form" onsubmit="handleReservationSubmit(event, 'inline')" class="space-y-6">
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div class="grid grid-cols-1 gap-3">
             <div>
               <label class="block text-xs font-semibold text-muted mb-1.5" data-i18n="res_date">التاريخ</label>
               <input type="date" name="date" required class="w-full px-4 py-3 text-base bg-alabaster border hairline rounded-xl focus:outline-none focus:border-terracotta" />
@@ -234,10 +250,10 @@
 
           <div>
             <label class="block text-xs font-semibold text-muted mb-2" data-i18n="res_time">اختر الوقت</label>
-            <div class="grid grid-cols-3 sm:grid-cols-6 gap-2" id="inline-time-slots"></div>
+            <div class="grid grid-cols-3 gap-2" id="inline-time-slots"></div>
           </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="grid grid-cols-1 gap-3">
             <input type="text" name="name" required data-i18n-placeholder="ph_name" placeholder="الاسم الكامل" class="w-full px-4 py-3 text-base bg-alabaster border hairline rounded-xl focus:outline-none focus:border-terracotta" />
             <input type="tel" name="phone" required data-i18n-placeholder="ph_phone" placeholder="رقم الهاتف" class="w-full px-4 py-3 text-base bg-alabaster border hairline rounded-xl focus:outline-none focus:border-terracotta" />
           </div>
@@ -261,23 +277,23 @@
   </section>
 
   <!-- Gallery Section -->
-  <section id="gallery" class="py-16 sm:py-24 bg-stonewarm/40 border-b hairline">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <section id="gallery" class="py-10 bg-stonewarm/40 border-b hairline">
+    <div class="px-4">
       <div class="mb-10">
         <p class="text-xs uppercase tracking-widest text-terracotta font-semibold mb-2" data-i18n="gal_eyebrow">المعرض</p>
-        <h2 class="font-serif-display text-3xl sm:text-5xl font-bold text-espresso" data-i18n="gal_title">لقطات من مائدتنا وأجوائنا</h2>
+        <h2 class="font-serif-display text-3xl font-bold text-espresso" data-i18n="gal_title">لقطات من مائدتنا وأجوائنا</h2>
       </div>
-      <div id="gallery-grid" class="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-5"></div>
+      <div id="gallery-grid" class="grid grid-cols-2 gap-2.5"></div>
     </div>
   </section>
 
   <!-- Visit & Contact Section -->
-  <section id="visit" class="py-16 sm:py-24 border-b hairline">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-10">
-      <div class="lg:col-span-5 space-y-6">
+  <section id="visit" class="py-10 border-b hairline">
+    <div class="px-4 flex flex-col gap-7">
+      <div class="space-y-5">
         <div>
           <p class="text-xs uppercase tracking-widest text-terracotta font-semibold mb-2" data-i18n="visit_eyebrow">زورونا</p>
-          <h2 class="font-serif-display text-3xl sm:text-4xl font-bold text-espresso" data-i18n="visit_title">ساعات العمل والموقع</h2>
+          <h2 class="font-serif-display text-3xl font-bold text-espresso" data-i18n="visit_title">ساعات العمل والموقع</h2>
         </div>
 
         <div class="p-5 bg-stonewarm/50 border hairline rounded-2xl space-y-3">
@@ -309,8 +325,8 @@
         </form>
       </div>
 
-      <div class="lg:col-span-7">
-        <div class="w-full h-[380px] sm:h-full min-h-[380px] rounded-3xl overflow-hidden border hairline">
+      <div class="w-full">
+        <div class="w-full h-[260px] rounded-2xl overflow-hidden border hairline">
           <iframe title="Al-Yasmin Map" class="w-full h-full border-0" loading="lazy" src="https://www.openstreetmap.org/export/embed.html?bbox=36.3020%2C33.5080%2C36.3140%2C33.5160&amp;layer=mapnik&amp;marker=33.5116%2C36.3082"></iframe>
         </div>
       </div>
@@ -318,9 +334,9 @@
   </section>
 
   <!-- Footer -->
-  <footer class="bg-espresso text-alabaster py-12">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
-      <div class="text-center md:text-start">
+  <footer class="bg-espresso text-alabaster py-8">
+    <div class="px-4 flex flex-col items-center text-center gap-5">
+      <div class="text-center">
         <p class="font-serif-display text-2xl font-bold" data-i18n="brand">الياسمين</p>
         <p class="text-xs text-stonewarm/70 mt-1" data-i18n="footer_rights">© <span id="year"></span> مطعم الياسمين. جميع الحقوق محفوظة.</p>
       </div>
@@ -332,7 +348,7 @@
   </footer>
 
   <!-- Mobile Bottom Navigation Bar -->
-  <nav class="md:hidden fixed bottom-0 inset-x-0 z-40 bg-alabaster/95 backdrop-blur-md border-t hairline px-2 py-2 grid grid-cols-4 gap-1 text-[11px] font-medium">
+  <nav class="fixed bottom-0 mobile-fixed-frame z-40 bg-alabaster/95 backdrop-blur-md border-t hairline px-2 pt-2 pb-safe grid grid-cols-4 gap-1 text-[11px] font-medium">
     <a href="#menu" class="flex flex-col items-center gap-1 py-1 text-espresso/80 hover:text-terracotta">
       <span>🍽️</span><span data-i18n="nav_menu">القائمة</span>
     </a>
@@ -350,9 +366,10 @@
   </nav>
 
   <!-- Cart Drawer -->
-  <div id="cart-drawer" class="fixed inset-0 z-50 hidden">
+  <div id="cart-drawer" class="fixed inset-y-0 mobile-fixed-frame z-50 hidden">
     <div class="absolute inset-0 bg-espresso/60 backdrop-blur-xs" onclick="closeCartDrawer()"></div>
-    <div class="absolute inset-y-0 end-0 w-full max-w-md bg-alabaster shadow-2xl flex flex-col">
+    <div class="absolute inset-x-0 bottom-0 max-h-[88svh] w-full bg-alabaster rounded-t-3xl shadow-2xl flex flex-col">
+      <div class="w-10 h-1 bg-espresso/20 rounded-full mx-auto mt-3 shrink-0"></div>
       <div class="p-5 border-b hairline flex items-center justify-between">
         <h3 class="font-serif-display text-2xl font-bold" data-i18n="cart_title">سلة الطلبات</h3>
         <button onclick="closeCartDrawer()" class="w-8 h-8 rounded-full border hairline flex items-center justify-center">✕</button>
@@ -374,10 +391,10 @@
   </div>
 
   <!-- Reservation Modal (Bottom Sheet on Mobile) -->
-  <div id="res-modal" class="fixed inset-0 z-50 hidden flex items-end sm:items-center justify-center">
+  <div id="res-modal" class="fixed inset-y-0 mobile-fixed-frame z-50 hidden flex items-end justify-center">
     <div class="absolute inset-0 bg-espresso/60" onclick="closeReservationModal()"></div>
-    <div class="relative w-full sm:max-w-lg bg-alabaster rounded-t-3xl sm:rounded-3xl p-6 max-h-[90svh] overflow-y-auto">
-      <div class="w-10 h-1 bg-espresso/20 rounded-full mx-auto mb-4 sm:hidden"></div>
+    <div class="relative w-full bg-alabaster rounded-t-3xl p-5 max-h-[88svh] overflow-y-auto pb-8">
+      <div class="w-10 h-1 bg-espresso/20 rounded-full mx-auto mb-4"></div>
       <div class="flex items-center justify-between mb-4">
         <h3 class="font-serif-display text-2xl font-bold" data-i18n="btn_book">احجز طاولة</h3>
         <button onclick="closeReservationModal()" class="w-8 h-8 rounded-full border hairline">✕</button>
@@ -404,7 +421,7 @@
   </div>
 
   <!-- Lightbox -->
-  <div id="lightbox" class="fixed inset-0 z-50 hidden bg-espresso/95 flex items-center justify-center p-4">
+  <div id="lightbox" class="fixed inset-y-0 mobile-fixed-frame z-50 hidden bg-espresso/95 flex items-center justify-center p-4">
     <button onclick="closeLightbox()" class="absolute top-5 end-5 w-10 h-10 rounded-full bg-alabaster/10 text-alabaster text-lg">✕</button>
     <button onclick="stepLightbox(-1)" class="absolute start-4 w-10 h-10 rounded-full bg-alabaster/10 text-alabaster text-xl">‹</button>
     <div class="max-w-4xl w-full text-center space-y-3">
@@ -415,7 +432,7 @@
   </div>
 
   <!-- Toast -->
-  <div id="toast" class="fixed bottom-20 md:bottom-6 start-1/2 -translate-x-1/2 z-50 hidden px-5 py-2.5 bg-espresso text-alabaster text-xs sm:text-sm rounded-full shadow-lg"></div>
+  <div id="toast" class="fixed bottom-20 left-1/2 -translate-x-1/2 z-50 hidden max-w-[390px] w-max px-5 py-2.5 bg-espresso text-alabaster text-xs rounded-full shadow-lg text-center"></div>
 
   <script>
     const I18N = {
@@ -607,9 +624,9 @@
       grid.innerHTML = items.map(item => {
         const qty = cart[item.id] || 0;
         return `
-          <div class="bg-alabaster border hairline rounded-2xl overflow-hidden flex md:flex-col hover:border-terracotta/50 transition-colors">
-            <img src="${item.img}" alt="${item[lang]}" class="w-28 h-28 md:w-full md:h-48 object-cover shrink-0" loading="lazy" />
-            <div class="p-3.5 sm:p-5 flex-1 flex flex-col justify-between gap-2">
+          <div class="bg-alabaster border hairline rounded-2xl overflow-hidden flex flex-row items-stretch active:scale-[0.99] transition">
+            <img src="${item.img}" alt="${item[lang]}" class="w-24 h-24 m-2.5 rounded-xl object-cover shrink-0 self-center" loading="lazy" />
+            <div class="py-3 pe-3 ps-1 flex-1 flex flex-col justify-between gap-1.5 min-w-0">
               <div>
                 <div class="flex items-start justify-between gap-2">
                   <h3 class="font-semibold text-sm sm:text-base text-espresso leading-snug">${item[lang]}</h3>
@@ -806,6 +823,15 @@
       toast.classList.remove('hidden');
       setTimeout(() => toast.classList.add('hidden'), 3200);
     }
+
+    // Mobile touch swipe for gallery lightbox
+    let touchStartX = 0;
+    const lbEl = document.getElementById('lightbox');
+    lbEl.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; }, { passive: true });
+    lbEl.addEventListener('touchend', e => {
+      const diff = e.changedTouches[0].screenX - touchStartX;
+      if (Math.abs(diff) > 40) stepLightbox(diff > 0 ? -1 : 1);
+    }, { passive: true });
 
     document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('year').textContent = new Date().getFullYear();
