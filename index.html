@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>الياسمين — مطعم دمشقي وحلبي أصيل | AL-YASMIN</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@600;700;800&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            alabaster: '#F7F4EF',
+            stonewarm: '#ECE6DC',
+            espresso: '#171513',
+            terracotta: '#A66A46',
+            terracottadark: '#8A5435',
+            muted: '#6B625B'
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    :root {
+      --bg: #F7F4EF;
+      --surface: #ECE6DC;
+      --ink: #171513;
+      --accent: #A66A46;
+      --line: rgba(23, 21, 19, 0.14);
+    }
+    html[dir="rtl"] body {
+      font-family: 'IBM Plex Sans Arabic', sans-serif;
+    }
+    html[dir="ltr"] body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    html[dir="rtl"] .font-serif-display {
+      font-family: 'Amiri', serif;
+    }
+    html[dir="ltr"] .font-serif-display {
+      font-family: 'Cormorant Garamond', serif;
+    }
+    html[dir="rtl"] .hero-title-ar {
+      font-family: 'Cairo', sans-serif;
+      font-weight: 800;
+      letter-spacing: 0;
+    }
+    html[dir="ltr"] .hero-title-ar {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 600;
+    }
+    body {
+      background-color: var(--bg);
+      color: var(--ink);
+      overflow-x: hidden;
+    }
+    .hairline { border-color: var(--line); }
+    .hero-height { min-height: 100svh; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    @media (max-width: 767px) {
+      body { padding-bottom: 74px; }
+    }
+  </style>
+</head>
+<body class="antialiased selection:bg-terracotta selection:text-alabaster">
+
+  <!-- Header -->
+  <header id="site-header" class="fixed top-0 inset-x-0 z-40 transition-all duration-300 bg-alabaster/90 backdrop-blur-md border-b hairline">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-4">
+      <a href="#home" class="flex items-center gap-2.5 group">
+        <span class="w-2.5 h-2.5 rounded-full bg-terracotta inline-block"></span>
+        <span class="font-serif-display text-2xl sm:text-3xl font-bold tracking-wide text-espresso" data-i18n="brand">الياسمين</span>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-espresso/80">
+        <a href="#menu" class="hover:text-terracotta transition-colors" data-i18n="nav_menu">القائمة</a>
+        <a href="#reservations" class="hover:text-terracotta transition-colors" data-i18n="nav_reserve">الحجوزات</a>
+        <a href="#story" class="hover:text-terracotta transition-colors" data-i18n="nav_story">قصتنا</a>
+        <a href="#gallery" class="hover:text-terracotta transition-colors" data-i18n="nav_gallery">المعرض</a>
+        <a href="#visit" class="hover:text-terracotta transition-colors" data-i18n="nav_visit">زورونا</a>
+      </nav>
+
+      <div class="flex items-center gap-2 sm:gap-3">
+        <button id="lang-toggle" onclick="toggleLanguage()" class="px-3 py-1.5 text-xs font-semibold border hairline rounded-full hover:bg-espresso hover:text-alabaster transition-colors">
+          EN
+        </button>
+        <button onclick="openCartDrawer()" class="relative inline-flex items-center gap-2 px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium border hairline rounded-full hover:border-espresso transition-colors">
+          <span data-i18n="nav_order">الطلب</span>
+          <span id="header-cart-count" class="inline-flex items-center justify-center min-w-[20px] h-5 px-1.5 text-[11px] font-semibold rounded-full bg-terracotta text-alabaster">0</span>
+        </button>
+        <button onclick="openReservationModal()" class="hidden sm:inline-flex px-5 py-2.5 text-xs sm:text-sm font-medium bg-espresso text-alabaster rounded-full hover:bg-terracotta transition-colors" data-i18n="btn_book">
+          احجز طاولة
+        </button>
+        <button onclick="toggleMobileMenu()" aria-label="Menu" class="md:hidden p-2 border hairline rounded-full">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Dropdown -->
+    <div id="mobile-menu" class="hidden md:hidden border-t hairline bg-alabaster px-6 py-5 space-y-4">
+      <div class="flex flex-col space-y-3 text-base font-medium">
+        <a href="#menu" onclick="toggleMobileMenu()" data-i18n="nav_menu">القائمة</a>
+        <a href="#reservations" onclick="toggleMobileMenu()" data-i18n="nav_reserve">الحجوزات</a>
+        <a href="#story" onclick="toggleMobileMenu()" data-i18n="nav_story">قصتنا</a>
+        <a href="#gallery" onclick="toggleMobileMenu()" data-i18n="nav_gallery">المعرض</a>
+        <a href="#visit" onclick="toggleMobileMenu()" data-i18n="nav_visit">زورونا</a>
+      </div>
+      <div class="pt-3 border-t hairline flex gap-3">
+        <button onclick="toggleMobileMenu(); openReservationModal();" class="flex-1 py-2.5 text-sm font-medium bg-espresso text-alabaster rounded-full" data-i18n="btn_book">احجز طاولة</button>
+        <button onclick="toggleLanguage(); toggleMobileMenu();" class="px-4 py-2.5 text-sm font-medium border hairline rounded-full" id="mobile-lang-btn">EN</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="home" class="relative hero-height flex items-end pt-24 pb-16 sm:pb-24 overflow-hidden">
+    <div class="absolute inset-0 z-0">
+      <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1800&q=85" alt="مطعم الياسمين" class="w-full h-full object-cover" />
+      <div class="absolute inset-0 bg-gradient-to-t from-espresso/90 via-espresso/50 to-espresso/30"></div>
+    </div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full text-alabaster">
+      <div class="max-w-2xl space-y-5">
+        <p class="inline-flex items-center gap-2 text-xs sm:text-sm uppercase tracking-widest text-stonewarm/90">
+          <span class="w-2 h-2 rounded-full bg-terracotta"></span>
+          <span data-i18n="hero_eyebrow">دمشق القديمة • المطبخ الشامي والحلبي الأصيل</span>
+        </p>
+        <h1 class="hero-title-ar text-4xl sm:text-6xl lg:text-7xl leading-tight" data-i18n="hero_title">موقد الحطب الحي</h1>
+        <p class="text-base sm:text-lg text-stonewarm/90 leading-relaxed max-w-xl" data-i18n="hero_desc">
+          نكهات دمشق وحلب الأصيلة تُطهى على جمر الفحم وخشب الزيتون، مع مقبلات يومية طازجة، مشاوي فاخرة، وحلويات شامية تُقدم بضيافة دافئة.
+        </p>
+        <div class="flex flex-wrap gap-3 pt-2">
+          <button onclick="openReservationModal()" class="px-7 py-3.5 bg-terracotta hover:bg-terracottadark text-alabaster text-sm font-semibold rounded-full transition-colors" data-i18n="btn_book">احجز طاولة</button>
+          <a href="#menu" class="px-7 py-3.5 bg-alabaster/10 hover:bg-alabaster/20 backdrop-blur-sm border border-alabaster/30 text-alabaster text-sm font-semibold rounded-full transition-colors" data-i18n="btn_explore_menu">تصفح القائمة</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Menu Section -->
+  <section id="menu" class="py-16 sm:py-24 border-b hairline">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+        <div>
+          <p class="text-xs uppercase tracking-widest text-terracotta font-semibold mb-2" data-i18n="menu_eyebrow">قائمة الطعام</p>
+          <h2 class="font-serif-display text-3xl sm:text-5xl font-bold text-espresso" data-i18n="menu_title">أطباق سورية مختارة</h2>
+        </div>
+        <div class="flex items-center gap-2 flex-wrap">
+          <button onclick="toggleDietary('V')" id="filter-V" class="px-3.5 py-1.5 text-xs font-medium border hairline rounded-full transition-colors" data-i18n="filter_v">نباتي (V)</button>
+          <button onclick="toggleDietary('GF')" id="filter-GF" class="px-3.5 py-1.5 text-xs font-medium border hairline rounded-full transition-colors" data-i18n="filter_gf">خالٍ من الغلوتين (GF)</button>
+        </div>
+      </div>
+
+      <!-- Category Tabs -->
+      <div id="category-tabs" class="flex gap-2 overflow-x-auto no-scrollbar pb-4 mb-8 border-b hairline"></div>
+
+      <!-- Menu Grid -->
+      <div id="menu-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"></div>
+    </div>
+  </section>
+
+  <!-- Story Section -->
+  <section id="story" class="py-16 sm:py-24 bg-stonewarm/50 border-b hairline">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+      <div class="lg:col-span-6 space-y-5">
+        <p class="text-xs uppercase tracking-widest text-terracotta font-semibold" data-i18n="story_eyebrow">قصتنا</p>
+        <h2 class="font-serif-display text-3xl sm:text-5xl font-bold text-espresso leading-tight" data-i18n="story_title">إرث الضيافة الشامية في قلب المدينة</h2>
+        <p class="text-muted leading-relaxed" data-i18n="story_p1">
+          وُلد مطعم الياسمين من شغفٍ عميق بالمطبخ السوري العريق، حيث تجتمع روائح البهارات من سوق البزورية في دمشق مع أسرار المشاوي والكبب الحلبية التي توارثتها الأجيال.
+        </p>
+        <p class="text-muted leading-relaxed" data-i18n="story_p2">
+          نختار مكوناتنا يومياً من أجود المحاصيل المحلية: زيت الزيتون البكر، دبس الرمان الحامض، الفستق الحلبي الفاخر، واللحوم الطازجة التي تُشوى أمامكم على موقد الحطب الحي.
+        </p>
+        <div class="grid grid-cols-3 gap-4 pt-4 border-t hairline">
+          <div>
+            <p class="font-serif-display text-3xl font-bold text-espresso">22</p>
+            <p class="text-xs text-muted mt-1" data-i18n="stat_dishes">طبقاً أصيلاً</p>
+          </div>
+          <div>
+            <p class="font-serif-display text-3xl font-bold text-espresso">100%</p>
+            <p class="text-xs text-muted mt-1" data-i18n="stat_fresh">مكونات يومية طازجة</p>
+          </div>
+          <div>
+            <p class="font-serif-display text-3xl font-bold text-espresso">1998</p>
+            <p class="text-xs text-muted mt-1" data-i18n="stat_since">تراث ممتد</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="lg:col-span-6 grid grid-cols-2 gap-4">
+        <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=900&q=80" alt="المطبخ الشامي" class="w-full h-64 sm:h-80 object-cover rounded-2xl border hairline" />
+        <img src="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=900&q=80" alt="بهارات سوق البزورية" class="w-full h-64 sm:h-80 object-cover rounded-2xl border hairline mt-6" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Inline Reservations Section -->
+  <section id="reservations" class="py-16 sm:py-24 border-b hairline">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-10 space-y-2">
+        <p class="text-xs uppercase tracking-widest text-terracotta font-semibold" data-i18n="res_eyebrow">حجز الطاولات</p>
+        <h2 class="font-serif-display text-3xl sm:text-5xl font-bold text-espresso" data-i18n="res_title">احجز أمسيتك في الياسمين</h2>
+      </div>
+
+      <div class="bg-stonewarm/40 border hairline rounded-3xl p-6 sm:p-10">
+        <form id="inline-res-form" onsubmit="handleReservationSubmit(event, 'inline')" class="space-y-6">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-muted mb-1.5" data-i18n="res_date">التاريخ</label>
+              <input type="date" name="date" required class="w-full px-4 py-3 text-base bg-alabaster border hairline rounded-xl focus:outline-none focus:border-terracotta" />
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-muted mb-1.5" data-i18n="res_guests">عدد الضيوف</label>
+              <select name="guests" class="w-full px-4 py-3 text-base bg-alabaster border hairline rounded-xl focus:outline-none focus:border-terracotta">
+                <option value="2">2</option><option value="3">3</option><option value="4" selected>4</option>
+                <option value="6">6</option><option value="8">8</option><option value="10">10+</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-muted mb-1.5" data-i18n="res_seating">منطقة الجلوس</label>
+              <select name="seating" class="w-full px-4 py-3 text-base bg-alabaster border hairline rounded-xl focus:outline-none focus:border-terracotta">
+                <option value="courtyard" data-i18n="seat_courtyard">البحرة الدمشقية</option>
+                <option value="indoor" data-i18n="seat_indoor">الصالة الداخلية</option>
+                <option value="terrace" data-i18n="seat_terrace">التراس الخارجي</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-muted mb-2" data-i18n="res_time">اختر الوقت</label>
+            <div class="grid grid-cols-3 sm:grid-cols-6 gap-2" id="inline-time-slots"></div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <input type="text" name="name" required data-i18n-placeholder="ph_name" placeholder="الاسم الكامل" class="w-full px-4 py-3 text-base bg-alabaster border hairline rounded-xl focus:outline-none focus:border-terracotta" />
+            <input type="tel" name="phone" required data-i18n-placeholder="ph_phone" placeholder="رقم الهاتف" class="w-full px-4 py-3 text-base bg-alabaster border hairline rounded-xl focus:outline-none focus:border-terracotta" />
+          </div>
+
+          <button type="submit" class="w-full py-3.5 bg-espresso hover:bg-terracotta text-alabaster text-sm font-semibold rounded-full transition-colors" data-i18n="btn_confirm_res">
+            تأكيد الحجز
+          </button>
+        </form>
+
+        <div id="inline-res-receipt" class="hidden text-center py-6 space-y-4">
+          <div class="w-12 h-12 rounded-full bg-terracotta/15 text-terracotta mx-auto flex items-center justify-center text-xl font-bold">✓</div>
+          <h3 class="font-serif-display text-2xl font-bold" data-i18n="res_confirmed">تم تأكيد حجزك بنجاح</h3>
+          <p id="inline-res-details" class="text-sm text-muted"></p>
+          <p class="text-xs font-mono bg-alabaster inline-block px-4 py-1.5 rounded-full border hairline" id="inline-res-code"></p>
+          <div>
+            <button onclick="resetReservation('inline')" class="text-xs underline text-terracotta font-semibold" data-i18n="btn_new_res">إجراء حجز جديد</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery Section -->
+  <section id="gallery" class="py-16 sm:py-24 bg-stonewarm/40 border-b hairline">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="mb-10">
+        <p class="text-xs uppercase tracking-widest text-terracotta font-semibold mb-2" data-i18n="gal_eyebrow">المعرض</p>
+        <h2 class="font-serif-display text-3xl sm:text-5xl font-bold text-espresso" data-i18n="gal_title">لقطات من مائدتنا وأجوائنا</h2>
+      </div>
+      <div id="gallery-grid" class="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-5"></div>
+    </div>
+  </section>
+
+  <!-- Visit & Contact Section -->
+  <section id="visit" class="py-16 sm:py-24 border-b hairline">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-10">
+      <div class="lg:col-span-5 space-y-6">
+        <div>
+          <p class="text-xs uppercase tracking-widest text-terracotta font-semibold mb-2" data-i18n="visit_eyebrow">زورونا</p>
+          <h2 class="font-serif-display text-3xl sm:text-4xl font-bold text-espresso" data-i18n="visit_title">ساعات العمل والموقع</h2>
+        </div>
+
+        <div class="p-5 bg-stonewarm/50 border hairline rounded-2xl space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-sm font-semibold" data-i18n="status_label">الحالة الآن</span>
+            <span id="live-status" class="text-xs font-semibold px-3 py-1 rounded-full"></span>
+          </div>
+          <div class="text-sm text-muted space-y-1">
+            <p data-i18n="hours_daily">يومياً: 12:00 ظهراً — 12:00 منتصف الليل</p>
+            <p data-i18n="hours_fri">الجمعة: 1:30 ظهراً — 1:00 بعد منتصف الليل</p>
+          </div>
+        </div>
+
+        <div class="space-y-2 text-sm">
+          <p class="font-semibold text-espresso" data-i18n="address_text">شارع القيمرية، دمشق القديمة، سوريا</p>
+          <p class="text-muted">+963 11 542 8890 • hello@alyasmin-dining.com</p>
+          <button onclick="copyAddress()" class="inline-flex items-center gap-2 text-xs font-semibold text-terracotta hover:underline pt-1" data-i18n="btn_copy_addr">
+            نسخ العنوان
+          </button>
+        </div>
+
+        <!-- Contact Form -->
+        <form id="contact-form" onsubmit="handleContactSubmit(event)" class="space-y-3 pt-4 border-t hairline">
+          <h3 class="text-sm font-semibold text-espresso" data-i18n="contact_title">تواصل معنا</h3>
+          <input type="text" required data-i18n-placeholder="ph_name" placeholder="الاسم الكامل" class="w-full px-4 py-2.5 text-base bg-alabaster border hairline rounded-xl focus:outline-none focus:border-terracotta" />
+          <input type="email" required data-i18n-placeholder="ph_email" placeholder="البريد الإلكتروني" class="w-full px-4 py-2.5 text-base bg-alabaster border hairline rounded-xl focus:outline-none focus:border-terracotta" />
+          <textarea rows="3" required data-i18n-placeholder="ph_msg" placeholder="رسالتك أو استفسارك..." class="w-full px-4 py-2.5 text-base bg-alabaster border hairline rounded-xl focus:outline-none focus:border-terracotta"></textarea>
+          <button type="submit" class="px-6 py-2.5 bg-espresso hover:bg-terracotta text-alabaster text-xs font-semibold rounded-full transition-colors" data-i18n="btn_send">إرسال الرسالة</button>
+        </form>
+      </div>
+
+      <div class="lg:col-span-7">
+        <div class="w-full h-[380px] sm:h-full min-h-[380px] rounded-3xl overflow-hidden border hairline">
+          <iframe title="Al-Yasmin Map" class="w-full h-full border-0" loading="lazy" src="https://www.openstreetmap.org/export/embed.html?bbox=36.3020%2C33.5080%2C36.3140%2C33.5160&amp;layer=mapnik&amp;marker=33.5116%2C36.3082"></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-espresso text-alabaster py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="text-center md:text-start">
+        <p class="font-serif-display text-2xl font-bold" data-i18n="brand">الياسمين</p>
+        <p class="text-xs text-stonewarm/70 mt-1" data-i18n="footer_rights">© <span id="year"></span> مطعم الياسمين. جميع الحقوق محفوظة.</p>
+      </div>
+      <form onsubmit="handleNewsletter(event)" class="flex gap-2 w-full max-w-sm">
+        <input type="email" required data-i18n-placeholder="ph_newsletter" placeholder="اشترك في نشرتنا البريدية" class="flex-1 px-4 py-2 text-sm bg-alabaster/10 border border-alabaster/20 rounded-full text-alabaster placeholder:text-stonewarm/60 focus:outline-none focus:border-terracotta" />
+        <button type="submit" class="px-5 py-2 bg-terracotta hover:bg-terracottadark text-xs font-semibold rounded-full transition-colors" data-i18n="btn_subscribe">اشتراك</button>
+      </form>
+    </div>
+  </footer>
+
+  <!-- Mobile Bottom Navigation Bar -->
+  <nav class="md:hidden fixed bottom-0 inset-x-0 z-40 bg-alabaster/95 backdrop-blur-md border-t hairline px-2 py-2 grid grid-cols-4 gap-1 text-[11px] font-medium">
+    <a href="#menu" class="flex flex-col items-center gap-1 py-1 text-espresso/80 hover:text-terracotta">
+      <span>🍽️</span><span data-i18n="nav_menu">القائمة</span>
+    </a>
+    <button onclick="openReservationModal()" class="flex flex-col items-center gap-1 py-1 text-espresso/80 hover:text-terracotta">
+      <span>📅</span><span data-i18n="nav_reserve">الحجوزات</span>
+    </button>
+    <button onclick="openCartDrawer()" class="relative flex flex-col items-center gap-1 py-1 text-espresso/80 hover:text-terracotta">
+      <span>🛍️</span>
+      <span id="mobile-cart-count" class="absolute top-0 right-4 min-w-[16px] h-4 px-1 text-[10px] rounded-full bg-terracotta text-alabaster flex items-center justify-center">0</span>
+      <span data-i18n="nav_order">الطلب</span>
+    </button>
+    <a href="#visit" class="flex flex-col items-center gap-1 py-1 text-espresso/80 hover:text-terracotta">
+      <span>📍</span><span data-i18n="nav_visit">زورونا</span>
+    </a>
+  </nav>
+
+  <!-- Cart Drawer -->
+  <div id="cart-drawer" class="fixed inset-0 z-50 hidden">
+    <div class="absolute inset-0 bg-espresso/60 backdrop-blur-xs" onclick="closeCartDrawer()"></div>
+    <div class="absolute inset-y-0 end-0 w-full max-w-md bg-alabaster shadow-2xl flex flex-col">
+      <div class="p-5 border-b hairline flex items-center justify-between">
+        <h3 class="font-serif-display text-2xl font-bold" data-i18n="cart_title">سلة الطلبات</h3>
+        <button onclick="closeCartDrawer()" class="w-8 h-8 rounded-full border hairline flex items-center justify-center">✕</button>
+      </div>
+
+      <div id="cart-body" class="flex-1 overflow-y-auto p-5 space-y-4"></div>
+
+      <div id="cart-footer" class="p-5 border-t hairline bg-stonewarm/40 space-y-4">
+        <div class="flex gap-2">
+          <button onclick="setFulfillment('delivery')" id="btn-delivery" class="flex-1 py-2 text-xs font-semibold rounded-full border hairline" data-i18n="ful_delivery">توصيل ($3.00)</button>
+          <button onclick="setFulfillment('pickup')" id="btn-pickup" class="flex-1 py-2 text-xs font-semibold rounded-full border hairline" data-i18n="ful_pickup">استلام من المطعم</button>
+        </div>
+        <div id="cart-totals" class="text-sm space-y-1"></div>
+        <button onclick="checkoutOrder()" id="checkout-btn" class="w-full py-3.5 bg-espresso hover:bg-terracotta text-alabaster text-sm font-semibold rounded-full transition-colors" data-i18n="btn_checkout">
+          تأكيد الطلب الآن
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reservation Modal (Bottom Sheet on Mobile) -->
+  <div id="res-modal" class="fixed inset-0 z-50 hidden flex items-end sm:items-center justify-center">
+    <div class="absolute inset-0 bg-espresso/60" onclick="closeReservationModal()"></div>
+    <div class="relative w-full sm:max-w-lg bg-alabaster rounded-t-3xl sm:rounded-3xl p-6 max-h-[90svh] overflow-y-auto">
+      <div class="w-10 h-1 bg-espresso/20 rounded-full mx-auto mb-4 sm:hidden"></div>
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="font-serif-display text-2xl font-bold" data-i18n="btn_book">احجز طاولة</h3>
+        <button onclick="closeReservationModal()" class="w-8 h-8 rounded-full border hairline">✕</button>
+      </div>
+      <form id="modal-res-form" onsubmit="handleReservationSubmit(event, 'modal')" class="space-y-4">
+        <div class="grid grid-cols-2 gap-3">
+          <input type="date" name="date" required class="w-full px-3.5 py-2.5 text-base bg-stonewarm/40 border hairline rounded-xl" />
+          <select name="guests" class="w-full px-3.5 py-2.5 text-base bg-stonewarm/40 border hairline rounded-xl">
+            <option value="2">2</option><option value="4" selected>4</option><option value="6">6</option><option value="8">8</option>
+          </select>
+        </div>
+        <div class="grid grid-cols-3 gap-2" id="modal-time-slots"></div>
+        <input type="text" name="name" required data-i18n-placeholder="ph_name" placeholder="الاسم الكامل" class="w-full px-3.5 py-2.5 text-base bg-stonewarm/40 border hairline rounded-xl" />
+        <input type="tel" name="phone" required data-i18n-placeholder="ph_phone" placeholder="رقم الهاتف" class="w-full px-3.5 py-2.5 text-base bg-stonewarm/40 border hairline rounded-xl" />
+        <button type="submit" class="w-full py-3 bg-terracotta text-alabaster text-sm font-semibold rounded-full" data-i18n="btn_confirm_res">تأكيد الحجز</button>
+      </form>
+      <div id="modal-res-receipt" class="hidden text-center py-6 space-y-3">
+        <div class="w-12 h-12 rounded-full bg-terracotta/15 text-terracotta mx-auto flex items-center justify-center text-xl font-bold">✓</div>
+        <h4 class="font-serif-display text-2xl font-bold" data-i18n="res_confirmed">تم تأكيد حجزك بنجاح</h4>
+        <p id="modal-res-details" class="text-sm text-muted"></p>
+        <p id="modal-res-code" class="text-xs font-mono bg-stonewarm/60 inline-block px-4 py-1.5 rounded-full"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lightbox -->
+  <div id="lightbox" class="fixed inset-0 z-50 hidden bg-espresso/95 flex items-center justify-center p-4">
+    <button onclick="closeLightbox()" class="absolute top-5 end-5 w-10 h-10 rounded-full bg-alabaster/10 text-alabaster text-lg">✕</button>
+    <button onclick="stepLightbox(-1)" class="absolute start-4 w-10 h-10 rounded-full bg-alabaster/10 text-alabaster text-xl">‹</button>
+    <div class="max-w-4xl w-full text-center space-y-3">
+      <img id="lightbox-img" src="" alt="" class="max-h-[78vh] mx-auto rounded-xl object-contain" />
+      <p id="lightbox-caption" class="text-sm text-stonewarm"></p>
+    </div>
+    <button onclick="stepLightbox(1)" class="absolute end-4 w-10 h-10 rounded-full bg-alabaster/10 text-alabaster text-xl">›</button>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="fixed bottom-20 md:bottom-6 start-1/2 -translate-x-1/2 z-50 hidden px-5 py-2.5 bg-espresso text-alabaster text-xs sm:text-sm rounded-full shadow-lg"></div>
+
+  <script>
+    const I18N = {
+      ar: {
+        brand: 'الياسمين',
+        nav_menu: 'القائمة', nav_reserve: 'الحجوزات', nav_story: 'قصتنا', nav_gallery: 'المعرض', nav_visit: 'زورونا', nav_order: 'الطلب',
+        btn_book: 'احجز طاولة', btn_explore_menu: 'تصفح القائمة',
+        hero_eyebrow: 'دمشق القديمة • المطبخ الشامي والحلبي الأصيل',
+        hero_title: 'موقد الحطب الحي',
+        hero_desc: 'نكهات دمشق وحلب الأصيلة تُطهى على جمر الفحم وخشب الزيتون، مع مقبلات يومية طازجة، مشاوي فاخرة، وحلويات شامية تُقدم بضيافة دافئة.',
+        menu_eyebrow: 'قائمة الطعام', menu_title: 'أطباق سورية مختارة',
+        filter_v: 'نباتي (V)', filter_gf: 'خالٍ من الغلوتين (GF)',
+        story_eyebrow: 'قصتنا', story_title: 'إرث الضيافة الشامية في قلب المدينة',
+        story_p1: 'وُلد مطعم الياسمين من شغفٍ عميق بالمطبخ السوري العريق، حيث تجتمع روائح البهارات من سوق البزورية في دمشق مع أسرار المشاوي والكبب الحلبية التي توارثتها الأجيال.',
+        story_p2: 'نختار مكوناتنا يومياً من أجود المحاصيل المحلية: زيت الزيتون البكر، دبس الرمان الحامض، الفستق الحلبي الفاخر، واللحوم الطازجة التي تُشوى أمامكم على موقد الحطب الحي.',
+        stat_dishes: 'طبقاً أصيلاً', stat_fresh: 'مكونات يومية طازجة', stat_since: 'تراث ممتد',
+        res_eyebrow: 'حجز الطاولات', res_title: 'احجز أمسيتك في الياسمين',
+        res_date: 'التاريخ', res_guests: 'عدد الضيوف', res_seating: 'منطقة الجلوس', res_time: 'اختر الوقت',
+        seat_courtyard: 'البحرة الدمشقية', seat_indoor: 'الصالة الداخلية', seat_terrace: 'التراس الخارجي',
+        btn_confirm_res: 'تأكيد الحجز', res_confirmed: 'تم تأكيد حجزك بنجاح', btn_new_res: 'إجراء حجز جديد',
+        gal_eyebrow: 'المعرض', gal_title: 'لقطات من مائدتنا وأجوائنا',
+        visit_eyebrow: 'زورونا', visit_title: 'ساعات العمل والموقع', status_label: 'الحالة الآن',
+        hours_daily: 'يومياً: 12:00 ظهراً — 12:00 منتصف الليل', hours_fri: 'الجمعة: 1:30 ظهراً — 1:00 بعد منتصف الليل',
+        address_text: 'شارع القيمرية، دمشق القديمة، سوريا', btn_copy_addr: 'نسخ العنوان',
+        contact_title: 'تواصل معنا', btn_send: 'إرسال الرسالة', btn_subscribe: 'اشتراك',
+        footer_rights: '© 2026 مطعم الياسمين. جميع الحقوق محفوظة.',
+        cart_title: 'سلة الطلبات', cart_empty: 'سلتك فارغة حالياً. أضف أطباقك المفضلة من القائمة.',
+        ful_delivery: 'توصيل ($3.00)', ful_pickup: 'استلام من المطعم', btn_checkout: 'تأكيد الطلب الآن',
+        subtotal: 'المجموع الفرعي', delivery_fee: 'رسوم التوصيل', total: 'الإجمالي',
+        add_btn: 'إضافة', open_now: 'مفتوح الآن', closed_now: 'مغلق حالياً',
+        toast_copied: 'تم نسخ العنوان بنجاح', toast_contact: 'تم إرسال رسالتك، سنتواصل معك قريباً',
+        toast_sub: 'شكراً لاشتراكك في نشرة الياسمين', toast_order: 'تم استلام طلبك بنجاح! رقم الطلب: ',
+        ph_name: 'الاسم الكامل', ph_phone: 'رقم الهاتف', ph_email: 'البريد الإلكتروني',
+        ph_msg: 'رسالتك أو استفسارك...', ph_newsletter: 'اشترك في نشرتنا البريدية'
+      },
+      en: {
+        brand: 'AL-YASMIN',
+        nav_menu: 'Menu', nav_reserve: 'Reservations', nav_story: 'Our Story', nav_gallery: 'Gallery', nav_visit: 'Visit', nav_order: 'Order',
+        btn_book: 'Book a Table', btn_explore_menu: 'Explore Menu',
+        hero_eyebrow: 'Old Damascus • Authentic Levantine & Aleppian Kitchen',
+        hero_title: 'Live Wood-Fired Hearth',
+        hero_desc: 'Authentic flavors of Damascus and Aleppo cooked over live charcoal and olive wood, with fresh daily mezze, prime grills, and Syrian sweets.',
+        menu_eyebrow: 'The Menu', menu_title: 'Curated Syrian Dishes',
+        filter_v: 'Vegetarian (V)', filter_gf: 'Gluten-Free (GF)',
+        story_eyebrow: 'Our Story', story_title: 'The Heritage of Damascene Hospitality',
+        story_p1: 'Al-Yasmin was born from a deep passion for timeless Syrian cuisine, blending the spice aromas of Souq Al-Buzuriyah with generations-old Aleppian grill mastery.',
+        story_p2: 'We source the finest local harvests daily: extra-virgin olive oil, tangy pomegranate molasses, Aleppian pistachios, and fresh cuts grilled over live wood.',
+        stat_dishes: 'Authentic Dishes', stat_fresh: 'Fresh Daily', stat_since: 'Heritage',
+        res_eyebrow: 'Reservations', res_title: 'Reserve Your Evening at Al-Yasmin',
+        res_date: 'Date', res_guests: 'Guests', res_seating: 'Seating Area', res_time: 'Select Time',
+        seat_courtyard: 'Damascene Courtyard', seat_indoor: 'Main Dining Room', seat_terrace: 'Outdoor Terrace',
+        btn_confirm_res: 'Confirm Reservation', res_confirmed: 'Reservation Confirmed', btn_new_res: 'Make Another Booking',
+        gal_eyebrow: 'Gallery', gal_title: 'Moments from Our Table',
+        visit_eyebrow: 'Visit Us', visit_title: 'Hours & Location', status_label: 'Live Status',
+        hours_daily: 'Daily: 12:00 PM — 12:00 AM', hours_fri: 'Friday: 1:30 PM — 1:00 AM',
+        address_text: 'Al-Qaymariyah Street, Old Damascus, Syria', btn_copy_addr: 'Copy Address',
+        contact_title: 'Get in Touch', btn_send: 'Send Message', btn_subscribe: 'Subscribe',
+        footer_rights: '© 2026 Al-Yasmin Restaurant. All rights reserved.',
+        cart_title: 'Your Order', cart_empty: 'Your cart is empty. Add your favorite dishes from the menu.',
+        ful_delivery: 'Delivery ($3.00)', ful_pickup: 'Pickup', btn_checkout: 'Place Order',
+        subtotal: 'Subtotal', delivery_fee: 'Delivery Fee', total: 'Total',
+        add_btn: 'Add', open_now: 'Open Now', closed_now: 'Closed',
+        toast_copied: 'Address copied to clipboard', toast_contact: 'Message sent! We will get back to you soon.',
+        toast_sub: 'Thank you for subscribing to Al-Yasmin.', toast_order: 'Order confirmed! Reference: ',
+        ph_name: 'Full Name', ph_phone: 'Phone Number', ph_email: 'Email Address',
+        ph_msg: 'Your message or inquiry...', ph_newsletter: 'Subscribe to our newsletter'
+      }
+    };
+
+    const CATEGORIES = [
+      { id: 'mezze', ar: 'المقبلات الشامية', en: 'Damascene Mezze' },
+      { id: 'grills', ar: 'المشاوي على الفحم', en: 'Charcoal Grills' },
+      { id: 'mains', ar: 'أطباق شامية وحلبية', en: 'Syrian Specialties' },
+      { id: 'sweets', ar: 'الحلويات السورية', en: 'Syrian Sweets' },
+      { id: 'drinks', ar: 'المشروبات الشرقية', en: 'Eastern Drinks' }
+    ];
+
+    const MENU_ITEMS = [
+      { id: 1, cat: 'mezze', price: 6, tags: ['V','GF'], img: 'https://images.unsplash.com/photo-1577906096429-f73c2c312435?auto=format&fit=crop&w=600&q=80', ar: 'حمص بالطحينة', en: 'Classic Hummus', descAr: 'حمص كريمي بالطحينة وزيت الزيتون البكر', descEn: 'Creamy chickpea puree with tahini and olive oil' },
+      { id: 2, cat: 'mezze', price: 7, tags: ['V','GF'], img: 'https://images.unsplash.com/photo-1541518763669-27fef04b14ea?auto=format&fit=crop&w=600&q=80', ar: 'متبل باذنجان مشوي', en: 'Smoky Mutabbal', descAr: 'باذنجان مشوي على الحطب مع طحينة ورمان', descEn: 'Wood-roasted eggplant with tahini and pomegranate' },
+      { id: 3, cat: 'mezze', price: 7, tags: ['V'], img: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=600&q=80', ar: 'فتوش شامي', en: 'Damascene Fattoush', descAr: 'خضار طازجة مع خبز مقرمش ودبس رمان أصلي', descEn: 'Crisp greens, toasted pita, and pomegranate molasses' },
+      { id: 4, cat: 'mezze', price: 6.5, tags: ['V'], img: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=600&q=80', ar: 'تبولة شامية', en: 'Fresh Tabbouleh', descAr: 'بقدونس ناعم مع برغل وبندورة وعصير ليمون', descEn: 'Finely chopped parsley, bulgur, tomato, and lemon' },
+      { id: 5, cat: 'mezze', price: 8, tags: ['V'], img: 'https://images.unsplash.com/photo-1626200419199-391ae4be7a41?auto=format&fit=crop&w=600&q=80', ar: 'محمرة حلبية بالجوز', en: 'Aleppian Muhammara', descAr: 'دبس فليفلة حلبية مع جوز محمص ودبس رمان', descEn: 'Roasted red pepper dip with walnuts and pomegranate' },
+
+      { id: 6, cat: 'grills', price: 16, tags: ['GF'], img: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=600&q=80', ar: 'كباب حلبي بالكرز', en: 'Aleppian Cherry Kebab', descAr: 'كباب لحم غنم مشوي مع صلصة الكرز الحامض', descEn: 'Charcoal-grilled lamb kebab in sour cherry glaze' },
+      { id: 7, cat: 'grills', price: 14, tags: ['GF'], img: 'https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?auto=format&fit=crop&w=600&q=80', ar: 'شيش طاووق على الفحم', en: 'Charcoal Shish Tawook', descAr: 'قطع دجاج متبلة بالثوم والليمون مشوية على الجمر', descEn: 'Marinated chicken skewers grilled over live charcoal' },
+      { id: 8, cat: 'grills', price: 24, tags: ['GF'], img: 'https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?auto=format&fit=crop&w=600&q=80', ar: 'مشاوي مشكلة الياسمين', en: 'Al-Yasmin Mixed Grill', descAr: 'تشكيلة كباب وشقف وشيش طاووق مع خبز مشوي', descEn: 'Assortment of lamb kebab, tikka, and shish tawook' },
+      { id: 9, cat: 'grills', price: 13, tags: [], img: 'https://images.unsplash.com/photo-1561651823-34feb02250e4?auto=format&fit=crop&w=600&q=80', ar: 'شاورما حلبية عربي', en: 'Aleppian Shawarma', descAr: 'شرائح لحم متبلة مع كريم ثوم ومخلل وبطاطا', descEn: 'Spiced shawarma slices with garlic sauce and pickles' },
+      { id: 10, cat: 'grills', price: 18, tags: ['GF'], img: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80', ar: 'شقف لحم غنم', en: 'Lamb Tikka Skewers', descAr: 'مكعبات لحم غنم طرية مشوية مع بصل وبندورة', descEn: 'Tender lamb cubes grilled with onions and tomatoes' },
+
+      { id: 11, cat: 'mains', price: 12, tags: [], img: 'https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?auto=format&fit=crop&w=600&q=80', ar: 'كبة حلبية مقلية', en: 'Aleppian Fried Kibbeh', descAr: 'كبة مقرمشة محشوة باللحم والصنوبر والبهار الحلبي', descEn: 'Crispy bulgur shells stuffed with spiced lamb and pine nuts' },
+      { id: 12, cat: 'mains', price: 13, tags: ['GF'], img: 'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?auto=format&fit=crop&w=600&q=80', ar: 'يبرق شامي باللحم', en: 'Damascene Stuffed Vine Leaves', descAr: 'ورق عنب محشي بالأرز واللحم مطهو على نار هادئة', descEn: 'Slow-cooked vine leaves stuffed with rice and lamb' },
+      { id: 13, cat: 'mains', price: 14, tags: [], img: 'https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=600&q=80', ar: 'فتة حمص بالسمن واللحم', en: 'Syrian Meat Fatteh', descAr: 'حمص وخبز محمص ولبن مع لحم وصنوبر وسمن عربي', descEn: 'Layered chickpeas, toasted pita, yogurt, lamb, and ghee' },
+      { id: 14, cat: 'mains', price: 9, tags: ['V','GF'], img: 'https://images.unsplash.com/photo-1593001874117-c99c800e3eb7?auto=format&fit=crop&w=600&q=80', ar: 'فلافل شامية ومكدوس', en: 'Damascene Falafel & Makdous', descAr: 'أقراص فلافل ساخنة مع مكدوس بالجوز وطحينة', descEn: 'Crispy herb falafel served with walnut-stuffed makdous' },
+
+      { id: 15, cat: 'sweets', price: 9, tags: ['V'], img: 'https://images.unsplash.com/photo-1579372786545-d24232daf58c?auto=format&fit=crop&w=600&q=80', ar: 'حلاوة الجبن الحموية', en: 'Hama Halawet El-Jibn', descAr: 'لفائف جبن محشوة بالقشطة العربية والفستق الحلبي', descEn: 'Sweet cheese rolls filled with ashta cream and pistachios' },
+      { id: 16, cat: 'sweets', price: 10, tags: ['V'], img: 'https://images.unsplash.com/photo-1519676867240-f03562e64548?auto=format&fit=crop&w=600&q=80', ar: 'بقلاوة دمشقية بالفستق', en: 'Damascene Pistachio Baklava', descAr: 'رقائق مقرمشة بالسمن العربي محشوة بفستق حلبي فاخر', descEn: 'Flaky filo pastry layered with roasted Aleppian pistachios' },
+      { id: 17, cat: 'sweets', price: 11, tags: ['V'], img: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=600&q=80', ar: 'كنافة نابلسية ساخنة', en: 'Warm Cheese Kunafa', descAr: 'كنافة ساخنة بالجبن الذائب وقطر ماء الزهر', descEn: 'Warm melted cheese pastry drizzled with blossom syrup' },
+      { id: 18, cat: 'sweets', price: 8, tags: ['V'], img: 'https://images.unsplash.com/photo-1558961363-fa8fdf82db35?auto=format&fit=crop&w=600&q=80', ar: 'معمول سوري بالفستق والتمر', en: 'Syrian Maamoul', descAr: 'معمول تقليدي هش بالسمن العربي والمحلب', descEn: 'Traditional semolina cookies filled with dates and pistachios' },
+
+      { id: 19, cat: 'drinks', price: 5, tags: ['V','GF'], img: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=600&q=80', ar: 'جلاب شامي بالصنوبر', en: 'Damascene Jallab', descAr: 'شراب دبس التمر وماء الورد مع صنوبر وزبيب', descEn: 'Date molasses and rosewater drink topped with pine nuts' },
+      { id: 20, cat: 'drinks', price: 4, tags: ['V','GF'], img: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80', ar: 'قهوة عربية بالهيل', en: 'Cardamom Arabic Coffee', descAr: 'قهوة محمصة طازجاً مع حبات الهيل الفاخر', descEn: 'Freshly roasted Arabic coffee infused with cardamom' },
+      { id: 21, cat: 'drinks', price: 3.5, tags: ['V','GF'], img: 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=600&q=80', ar: 'شاي بالنعناع الدمشقي', en: 'Damascene Mint Tea', descAr: 'شاي أحمر ساخن مع أوراق النعناع الطازج', descEn: 'Hot black tea steeped with fresh Damascene mint' },
+      { id: 22, cat: 'drinks', price: 4.5, tags: ['V','GF'], img: 'https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&w=600&q=80', ar: 'شاي خمر على الحطب', en: 'Wood-Brewed Tea', descAr: 'شاي مخمّر ببطء على الجمر بنكهة تقليدية أصيلة', descEn: 'Slow-brewed traditional tea over live embers' }
+    ];
+
+    const GALLERY = [
+      { img: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1000&q=80', ar: 'أجواء مطعم الياسمين المسائية', en: 'Evening ambiance at Al-Yasmin' },
+      { img: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=1000&q=80', ar: 'المشاوي الحلبية على موقد الحطب الحي', en: 'Aleppian grills over live wood fire' },
+      { img: 'https://images.unsplash.com/photo-1541518763669-27fef04b14ea?auto=format&fit=crop&w=1000&q=80', ar: 'مائدة المقبلات الشامية اليومية', en: 'Daily Damascene mezze spread' },
+      { img: 'https://images.unsplash.com/photo-1519676867240-f03562e64548?auto=format&fit=crop&w=1000&q=80', ar: 'صواني البقلاوة الدمشقية بالفستق', en: 'Damascene pistachio baklava trays' },
+      { img: 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=1000&q=80', ar: 'بهارات مختارة من سوق البزورية', en: 'Handpicked spices from Souq Al-Buzuriyah' },
+      { img: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=1000&q=80', ar: 'ضيافة القهوة العربية بالهيل', en: 'Traditional cardamom coffee hospitality' }
+    ];
+
+    const TIME_SLOTS = ['13:00', '15:00', '18:00', '19:30', '21:00', '22:30'];
+
+    let lang = localStorage.getItem('alyasmin_lang') || 'ar';
+    let activeCat = 'mezze';
+    let dietaryFilters = new Set();
+    let cart = {};
+    let fulfillment = 'delivery';
+    let selectedTime = { inline: '19:30', modal: '19:30' };
+    let lightboxIdx = 0;
+
+    const t = (key) => I18N[lang][key] || key;
+
+    function applyLanguage() {
+      document.documentElement.lang = lang;
+      document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+      document.getElementById('lang-toggle').textContent = lang === 'ar' ? 'EN' : 'العربية';
+      document.getElementById('mobile-lang-btn').textContent = lang === 'ar' ? 'EN' : 'العربية';
+
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        el.textContent = t(el.dataset.i18n);
+      });
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        el.placeholder = t(el.dataset.i18nPlaceholder);
+      });
+
+      renderCategories();
+      renderMenu();
+      renderGallery();
+      renderCart();
+      updateLiveStatus();
+    }
+
+    function toggleLanguage() {
+      lang = lang === 'ar' ? 'en' : 'ar';
+      localStorage.setItem('alyasmin_lang', lang);
+      applyLanguage();
+    }
+
+    function toggleMobileMenu() {
+      document.getElementById('mobile-menu').classList.toggle('hidden');
+    }
+
+    function renderCategories() {
+      const container = document.getElementById('category-tabs');
+      container.innerHTML = CATEGORIES.map(c => `
+        <button onclick="setCategory('${c.id}')" class="whitespace-nowrap px-5 py-2 text-xs sm:text-sm font-medium rounded-full border transition-colors ${activeCat === c.id ? 'bg-espresso text-alabaster border-espresso' : 'hairline text-espresso/80 hover:border-espresso'}">
+          ${c[lang]}
+        </button>
+      `).join('');
+    }
+
+    function setCategory(id) {
+      activeCat = id;
+      renderCategories();
+      renderMenu();
+    }
+
+    function toggleDietary(tag) {
+      if (dietaryFilters.has(tag)) dietaryFilters.delete(tag);
+      else dietaryFilters.add(tag);
+      document.getElementById('filter-' + tag).classList.toggle('bg-terracotta', dietaryFilters.has(tag));
+      document.getElementById('filter-' + tag).classList.toggle('text-alabaster', dietaryFilters.has(tag));
+      renderMenu();
+    }
+
+    function renderMenu() {
+      const grid = document.getElementById('menu-grid');
+      const items = MENU_ITEMS.filter(item => {
+        if (item.cat !== activeCat) return false;
+        for (const f of dietaryFilters) if (!item.tags.includes(f)) return false;
+        return true;
+      });
+
+      grid.innerHTML = items.map(item => {
+        const qty = cart[item.id] || 0;
+        return `
+          <div class="bg-alabaster border hairline rounded-2xl overflow-hidden flex md:flex-col hover:border-terracotta/50 transition-colors">
+            <img src="${item.img}" alt="${item[lang]}" class="w-28 h-28 md:w-full md:h-48 object-cover shrink-0" loading="lazy" />
+            <div class="p-3.5 sm:p-5 flex-1 flex flex-col justify-between gap-2">
+              <div>
+                <div class="flex items-start justify-between gap-2">
+                  <h3 class="font-semibold text-sm sm:text-base text-espresso leading-snug">${item[lang]}</h3>
+                  <span class="font-semibold text-sm sm:text-base text-terracotta shrink-0">$${item.price.toFixed(2)}</span>
+                </div>
+                <p class="text-xs text-muted mt-1 line-clamp-2">${lang === 'ar' ? item.descAr : item.descEn}</p>
+              </div>
+              <div class="flex items-center justify-between pt-2">
+                <div class="flex gap-1">
+                  ${item.tags.map(tg => `<span class="text-[10px] px-2 py-0.5 rounded-full bg-stonewarm text-muted font-medium">${tg}</span>`).join('')}
+                </div>
+                ${qty === 0 ? `
+                  <button onclick="updateCart(${item.id}, 1)" class="px-3.5 py-1.5 text-xs font-semibold bg-espresso hover:bg-terracotta text-alabaster rounded-full transition-colors">${t('add_btn')}</button>
+                ` : `
+                  <div class="inline-flex items-center gap-2 border hairline rounded-full px-2 py-1">
+                    <button onclick="updateCart(${item.id}, -1)" class="w-5 h-5 rounded-full hover:bg-stonewarm text-xs font-bold">−</button>
+                    <span class="text-xs font-semibold min-w-[14px] text-center">${qty}</span>
+                    <button onclick="updateCart(${item.id}, 1)" class="w-5 h-5 rounded-full hover:bg-stonewarm text-xs font-bold">+</button>
+                  </div>
+                `}
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function updateCart(id, delta) {
+      cart[id] = (cart[id] || 0) + delta;
+      if (cart[id] <= 0) delete cart[id];
+      renderMenu();
+      renderCart();
+    }
+
+    function setFulfillment(mode) {
+      fulfillment = mode;
+      renderCart();
+    }
+
+    function renderCart() {
+      const entries = Object.entries(cart);
+      const count = entries.reduce((sum, [, q]) => sum + q, 0);
+      document.getElementById('header-cart-count').textContent = count;
+      document.getElementById('mobile-cart-count').textContent = count;
+
+      const body = document.getElementById('cart-body');
+      const btnDel = document.getElementById('btn-delivery');
+      const btnPick = document.getElementById('btn-pickup');
+      btnDel.classList.toggle('bg-espresso', fulfillment === 'delivery');
+      btnDel.classList.toggle('text-alabaster', fulfillment === 'delivery');
+      btnPick.classList.toggle('bg-espresso', fulfillment === 'pickup');
+      btnPick.classList.toggle('text-alabaster', fulfillment === 'pickup');
+
+      if (entries.length === 0) {
+        body.innerHTML = `<p class="text-sm text-muted text-center py-12">${t('cart_empty')}</p>`;
+        document.getElementById('cart-totals').innerHTML = '';
+        document.getElementById('checkout-btn').disabled = true;
+        document.getElementById('checkout-btn').classList.add('opacity-50');
+        return;
+      }
+
+      document.getElementById('checkout-btn').disabled = false;
+      document.getElementById('checkout-btn').classList.remove('opacity-50');
+
+      let subtotal = 0;
+      body.innerHTML = entries.map(([id, qty]) => {
+        const item = MENU_ITEMS.find(m => m.id === Number(id));
+        subtotal += item.price * qty;
+        return `
+          <div class="flex items-center justify-between gap-3 pb-3 border-b hairline">
+            <div>
+              <p class="text-sm font-semibold">${item[lang]}</p>
+              <p class="text-xs text-muted">$${item.price.toFixed(2)} × ${qty}</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="updateCart(${item.id}, -1)" class="w-6 h-6 rounded-full border hairline text-xs">−</button>
+              <span class="text-xs font-semibold">${qty}</span>
+              <button onclick="updateCart(${item.id}, 1)" class="w-6 h-6 rounded-full border hairline text-xs">+</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      const fee = fulfillment === 'delivery' ? 3 : 0;
+      const total = subtotal + fee;
+      document.getElementById('cart-totals').innerHTML = `
+        <div class="flex justify-between text-muted"><span>${t('subtotal')}</span><span>$${subtotal.toFixed(2)}</span></div>
+        <div class="flex justify-between text-muted"><span>${t('delivery_fee')}</span><span>$${fee.toFixed(2)}</span></div>
+        <div class="flex justify-between font-bold text-espresso pt-2 border-t hairline"><span>${t('total')}</span><span>$${total.toFixed(2)}</span></div>
+      `;
+    }
+
+    function openCartDrawer() { document.getElementById('cart-drawer').classList.remove('hidden'); }
+    function closeCartDrawer() { document.getElementById('cart-drawer').classList.add('hidden'); }
+
+    function checkoutOrder() {
+      const code = 'YSM-' + Math.floor(100000 + Math.random() * 900000);
+      cart = {};
+      renderMenu();
+      renderCart();
+      closeCartDrawer();
+      showToast(t('toast_order') + code);
+    }
+
+    function renderTimeSlots(scope) {
+      const container = document.getElementById(scope + '-time-slots');
+      container.innerHTML = TIME_SLOTS.map(slot => `
+        <button type="button" onclick="selectTime('${scope}', '${slot}')" class="py-2 text-xs font-semibold rounded-xl border transition-colors ${selectedTime[scope] === slot ? 'bg-terracotta text-alabaster border-terracotta' : 'bg-alabaster hairline'}">
+          ${slot}
+        </button>
+      `).join('');
+    }
+
+    function selectTime(scope, slot) {
+      selectedTime[scope] = slot;
+      renderTimeSlots(scope);
+    }
+
+    function handleReservationSubmit(e, scope) {
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      const code = 'YSM-' + Math.floor(1000 + Math.random() * 9000);
+      document.getElementById(scope + '-res-form').classList.add('hidden');
+      document.getElementById(scope + '-res-receipt').classList.remove('hidden');
+      document.getElementById(scope + '-res-details').textContent = `${fd.get('name')} • ${fd.get('date')} • ${selectedTime[scope]} • ${fd.get('guests')}`;
+      document.getElementById(scope + '-res-code').textContent = code;
+    }
+
+    function resetReservation(scope) {
+      document.getElementById(scope + '-res-form').reset();
+      document.getElementById(scope + '-res-form').classList.remove('hidden');
+      document.getElementById(scope + '-res-receipt').classList.add('hidden');
+    }
+
+    function openReservationModal() {
+      resetReservation('modal');
+      document.getElementById('res-modal').classList.remove('hidden');
+    }
+    function closeReservationModal() {
+      document.getElementById('res-modal').classList.add('hidden');
+    }
+
+    function renderGallery() {
+      document.getElementById('gallery-grid').innerHTML = GALLERY.map((g, i) => `
+        <button onclick="openLightbox(${i})" class="group relative overflow-hidden rounded-2xl border hairline aspect-square">
+          <img src="${g.img}" alt="${g[lang]}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+        </button>
+      `).join('');
+    }
+
+    function openLightbox(i) {
+      lightboxIdx = i;
+      updateLightbox();
+      document.getElementById('lightbox').classList.remove('hidden');
+    }
+    function closeLightbox() { document.getElementById('lightbox').classList.add('hidden'); }
+    function stepLightbox(dir) {
+      lightboxIdx = (lightboxIdx + dir + GALLERY.length) % GALLERY.length;
+      updateLightbox();
+    }
+    function updateLightbox() {
+      document.getElementById('lightbox-img').src = GALLERY[lightboxIdx].img;
+      document.getElementById('lightbox-caption').textContent = GALLERY[lightboxIdx][lang];
+    }
+
+    function updateLiveStatus() {
+      const hour = new Date().getHours();
+      const isOpen = hour >= 12 && hour < 24;
+      const el = document.getElementById('live-status');
+      el.textContent = isOpen ? t('open_now') : t('closed_now');
+      el.className = 'text-xs font-semibold px-3 py-1 rounded-full ' + (isOpen ? 'bg-emerald-700/15 text-emerald-800' : 'bg-red-700/15 text-red-800');
+    }
+
+    function copyAddress() {
+      navigator.clipboard?.writeText(t('address_text'));
+      showToast(t('toast_copied'));
+    }
+
+    function handleContactSubmit(e) {
+      e.preventDefault();
+      e.target.reset();
+      showToast(t('toast_contact'));
+    }
+
+    function handleNewsletter(e) {
+      e.preventDefault();
+      e.target.reset();
+      showToast(t('toast_sub'));
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.classList.remove('hidden');
+      setTimeout(() => toast.classList.add('hidden'), 3200);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('year').textContent = new Date().getFullYear();
+      const today = new Date().toISOString().split('T')[0];
+      document.querySelectorAll('input[type="date"]').forEach(el => { el.min = today; el.value = today; });
+      renderTimeSlots('inline');
+      renderTimeSlots('modal');
+      applyLanguage();
+    });
+  </script>
+</body>
+</html>
